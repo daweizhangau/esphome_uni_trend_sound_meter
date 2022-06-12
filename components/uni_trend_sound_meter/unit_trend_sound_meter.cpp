@@ -15,7 +15,7 @@ void UnitTrendSoundMeter::gattc_event_handler(esp_gattc_cb_event_t event, esp_ga
                                     esp_ble_gattc_cb_param_t *param) {
 }
 
-// void UnitTrendSoundMeter::update() {
+void UnitTrendSoundMeter::update() {
 //   if (this->node_state != espbt::ClientState::ESTABLISHED) {
 //     ESP_LOGW(TAG, "[%s] Cannot poll, not connected", this->get_name().c_str());
 //     return;
@@ -32,7 +32,7 @@ void UnitTrendSoundMeter::gattc_event_handler(esp_gattc_cb_event_t event, esp_ga
 //     this->publish_state(NAN);
 //     ESP_LOGW(TAG, "[%s] Error sending read request for sensor, status=%d", this->get_name().c_str(), status);
 //   }
-// }
+}
 
 }  // namespace ble_client
 }  // namespace esphome
