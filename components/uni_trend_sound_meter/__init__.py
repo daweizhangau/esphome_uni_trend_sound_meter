@@ -19,9 +19,9 @@ BLESensor = sensor_namespace.class_(
 CONFIG_SCHEMA = cv.All(
     sensor.sensor_schema(
         BLESensor,
-        accuracy_decimals=0,
+        accuracy_decimals=1,
     )
-    .extend(cv.polling_component_schema("60s"))
+    .extend(cv.polling_component_schema("1s"))
     .extend(ble_client.BLE_CLIENT_SCHEMA)
 )
 

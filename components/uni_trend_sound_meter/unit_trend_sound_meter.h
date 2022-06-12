@@ -15,9 +15,8 @@ using namespace ble_client;
 
 espbt::ESPBTUUID uuid128_from_string(std::string value);
 
-class UnitTrendSoundMeter : public Component, public PollingComponent, public BLEClientNode {
+class UnitTrendSoundMeter : public sensor::Sensor, public PollingComponent, public BLEClientNode {
  public:
-  UnitTrendSoundMeter() : Component(){};
 
 //   float get_setup_priority() const override { return setup_priority::LATE; }
 //   void setup() override;
