@@ -8,8 +8,6 @@
 namespace esphome {
 namespace uni_trend_sound_meter {
 
-using namespace ble_client;
-
 espbt::ESPBTUUID uuid128_from_string(std::string value);
 
 class UnitTrendSoundMeter : public Component {
