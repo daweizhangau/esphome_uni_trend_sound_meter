@@ -36,7 +36,7 @@ from esphome.const import (
     CONF_SERVICE_UUID,
 )
 from esphome import automation
-from .. import ble_client_ns
+from esphome.components.ble_client import ble_client_ns
 
 DEPENDENCIES = ["ble_client"]
 
