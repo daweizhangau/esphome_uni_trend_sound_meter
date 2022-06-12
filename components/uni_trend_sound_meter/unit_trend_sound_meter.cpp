@@ -1,9 +1,9 @@
 #include "unit_trend_sound_meter.h"
-#include "ble_sensor.h"
-#include "esphome/core/log.h"
-#include "esphome/core/application.h"
-#include "esphome/core/helpers.h"
-#include "esphome/components/esp32_ble_tracker/esp32_ble_tracker.h"
+// #include "ble_sensor.h"
+// #include "esphome/core/log.h"
+// #include "esphome/core/application.h"
+// #include "esphome/core/helpers.h"
+// #include "esphome/components/esp32_ble_tracker/esp32_ble_tracker.h"
 
 #ifdef USE_ESP32
 

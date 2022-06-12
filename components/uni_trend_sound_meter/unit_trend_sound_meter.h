@@ -1,7 +1,7 @@
 #pragma once
 
 #include "esphome/core/component.h"
-#include "esphome/components/ble_client/sensor/ble_sensor.h"
+// #include "esphome/components/ble_client/sensor/ble_sensor.h"
 
 #ifdef USE_ESP32
 
