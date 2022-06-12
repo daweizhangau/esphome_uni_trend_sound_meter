@@ -16,7 +16,7 @@ using namespace ble_client;
 
 espbt::ESPBTUUID uuid128_from_string(std::string value);
 
-class UnitTrendSoundMeter : public Component, public BLEClientNode {
+class UnitTrendSoundMeter : public Component, public PollingComponent, public BLEClientNode {
  public:
   UnitTrendSoundMeter() : Component(){};
 
