@@ -8,8 +8,6 @@
 namespace esphome {
 namespace uni_trend_sound_meter {
 
-espbt::ESPBTUUID uuid128_from_string(std::string value);
-
 class UnitTrendSoundMeter : public Component {
 //  public:
 //   void gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if,
