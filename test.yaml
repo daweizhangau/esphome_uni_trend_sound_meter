@@ -1,0 +1,23 @@
+external_components:
+  - source: github://daweizhangnet/esphome_uni_trend_sound_meter@dev
+  
+esphome:
+  name: test
+  platform: ESP32
+  board: esp32dev
+
+wifi:
+  ssid: wifi_ssid
+  password: wifi_password
+  fast_connect: true
+
+logger:
+
+esp32_ble_tracker:
+
+ble_client:
+  - mac_address: "00:00:00:00:00:00"
+    id: idasen_desk
+
+uni_trend_sound_meter:
+  - name: sound_meter
