@@ -20,6 +20,9 @@ CONFIG_SCHEMA = cv.All(
     sensor.sensor_schema(
         BLESensor,
         accuracy_decimals=1,
+        device_class="signal_strength",
+        unit_of_measurement="dBA",
+        icon="mdi:waveform"
     )
     .extend(cv.polling_component_schema("1s"))
     .extend(ble_client.BLE_CLIENT_SCHEMA)
