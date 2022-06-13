@@ -9,11 +9,27 @@
 namespace esphome {
 namespace uni_trend_sound_meter {
 
+namespace espbt = esphome::esp32_ble_tracker;
+
+using namespace ble_client;
+
+espbt::ESPBTUUID uuid128_from_string(std::string value);
+
 void UnitTrendSoundMeter::loop() {}
 
 void UnitTrendSoundMeter::gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if,
                                     esp_ble_gattc_cb_param_t *param) {
 }
+
+void BLESensor::dump_config() {
+  LOG_SENSOR("", "UNI-T UT353BT", this);
+  ESP_LOGCONFIG(TAG, "  MAC address        : %s", this->parent()->address_str().c_str());
+  ESP_LOGCONFIG(TAG, "  Service UUID       : %s", this->service_uuid_.to_string().c_str());
+  ESP_LOGCONFIG(TAG, "  Characteristic UUID: %s", this->char_uuid_.to_string().c_str());
+  ESP_LOGCONFIG(TAG, "  Descriptor UUID    : %s", this->descr_uuid_.to_string().c_str());
+  LOG_UPDATE_INTERVAL(this);
+}
+
 
 void UnitTrendSoundMeter::update() {
 //   if (this->node_state != espbt::ClientState::ESTABLISHED) {
