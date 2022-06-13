@@ -21,7 +21,7 @@ void UnitTrendSoundMeter::gattc_event_handler(esp_gattc_cb_event_t event, esp_ga
                                     esp_ble_gattc_cb_param_t *param) {
 }
 
-void BLESensor::dump_config() {
+void UnitTrendSoundMeter::dump_config() {
   LOG_SENSOR("", "UNI-T UT353BT", this);
   ESP_LOGCONFIG(TAG, "  MAC address        : %s", this->parent()->address_str().c_str());
   ESP_LOGCONFIG(TAG, "  Service UUID       : %s", this->service_uuid_.to_string().c_str());
