@@ -9,6 +9,8 @@
 namespace esphome {
 namespace uni_trend_sound_meter {
 
+static const char *const TAG = "uni_trend_sound_meter";
+
 namespace espbt = esphome::esp32_ble_tracker;
 
 using namespace ble_client;
