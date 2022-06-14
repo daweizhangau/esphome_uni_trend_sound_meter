@@ -32,9 +32,9 @@ protected:
   bool notify_ = true;
   espbt::ESPBTUUID service_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF12);
   espbt::ESPBTUUID input_char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF01);
-  uint16_t control_handle;
+  uint16_t input_handle_;
   espbt::ESPBTUUID output_char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF02);
-  uint16_t handle;
+  uint16_t output_handle_;
 };
 }  // namespace uni_trend_sound_meter
 }  // namespace esphome
