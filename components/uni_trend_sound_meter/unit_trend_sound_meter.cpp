@@ -123,7 +123,8 @@ void UnitTrendSoundMeter::update() {
   }
 
   auto status =
-      esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, this->handle, ESP_GATT_AUTH_REQ_NONE);
+      esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, handle, 2, 0x5E,
+                                                ESP_GATT_WRITE_TYPE_NO_RSP, ESP_GATT_AUTH_REQ_NONE);
   if (status) {
     this->status_set_warning();
     this->publish_state(NAN);
