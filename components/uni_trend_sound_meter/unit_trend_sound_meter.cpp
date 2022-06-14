@@ -88,8 +88,8 @@ void UnitTrendSoundMeter::gattc_event_handler(
       break;
     }
     case ESP_GATTC_NOTIFY_EVT: {
-      ESP_LOGV(TAG, "[%s] Checking ESP_GATTC_NOTIFY_EVT: handle=0x%x, value=0x%x", this->get_name().c_str(),
-               param->notify.handle, param->notify.value[0]);
+      ESP_LOGV(TAG, "[%s] Checking ESP_GATTC_NOTIFY_EVT: handle=0x%x", this->get_name().c_str(),
+               param->notify.handle);
       if (param->notify.conn_id != this->parent()->conn_id || param->notify.handle != this->output_handle_)
         break;
       ESP_LOGV(TAG, "[%s] ESP_GATTC_NOTIFY_EVT: handle=0x%x, value=0x%x", this->get_name().c_str(),
