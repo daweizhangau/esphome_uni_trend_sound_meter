@@ -17,8 +17,8 @@ using namespace ble_client;
 espbt::ESPBTUUID uuid128_from_string(std::string value);
 
 class UnitTrendSoundMeter : public sensor::Sensor, public PollingComponent, public BLEClientNode {
- public:
 
+public:
 //   float get_setup_priority() const override { return setup_priority::LATE; }
 //   void setup() override;
   void dump_config() override;
@@ -28,6 +28,9 @@ class UnitTrendSoundMeter : public sensor::Sensor, public PollingComponent, publ
   void gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if,
                            esp_ble_gattc_cb_param_t *param) override;
   uint16_t handle;
+
+protected:
+  bool notify_;
   espbt::ESPBTUUID service_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF12);
   espbt::ESPBTUUID char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF01);
   espbt::ESPBTUUID descr_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF02);
