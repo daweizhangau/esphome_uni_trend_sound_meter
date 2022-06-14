@@ -38,7 +38,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
       this->publish_state(NAN);
       break;
     }
-    case ESP_GATTC_CFG_MTU_EVT: {
+    case ESP_GATTC_SEARCH_CMPL_EVT: {
       ESP_LOGI(TAG, "[%s] Handling event: ESP_GATTC_SEARCH_CMPL_EVT (6)", this->get_name().c_str());
       this->handle = 0;
       auto *chr = this->parent()->get_characteristic(this->service_uuid_, this->char_uuid_);
