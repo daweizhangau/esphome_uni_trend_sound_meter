@@ -122,8 +122,13 @@ void UnitTrendSoundMeter::update() {
     return;
   }
 
+  value = 0x5E
+  uint8_t data[2];
+  data[0] = value;
+  data[1] = value >> 8;
+
   auto status =
-      esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, handle, 2, 0x5E,
+      esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, handle, 2, value,
                                                 ESP_GATT_WRITE_TYPE_NO_RSP, ESP_GATT_AUTH_REQ_NONE);
   if (status) {
     this->status_set_warning();
