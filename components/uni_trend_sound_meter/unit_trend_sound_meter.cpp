@@ -113,6 +113,19 @@ void UnitTrendSoundMeter::dump_config() {
   LOG_UPDATE_INTERVAL(this);
 }
 
+void IdasenDeskControllerComponent::write_value_(uint16_t handle, unsigned short value) {
+  uint8_t data[2];
+  data[0] = value;
+  data[1] = value >> 8;
+
+  esp_err_t status = ::esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, handle, 2, data,
+                                                ESP_GATT_WRITE_TYPE_NO_RSP, ESP_GATT_AUTH_REQ_NONE);
+
+  if (status != ESP_OK) {
+    this->status_set_warning();
+    ESP_LOGW(TAG, "[%s] Error sending write request for cover, status=%d", this->get_name().c_str(), status);
+  }
+}
 
 void UnitTrendSoundMeter::update() {
   ESP_LOGI(TAG,  "[%s] Updating", this->get_name().c_str());
@@ -129,6 +142,7 @@ void UnitTrendSoundMeter::update() {
   //   return;
   // }
 
+  this->write_value_(this->input_handle_, 0x5E);
   // int value = 0x5E;
   // uint8_t data[2];
   // data[0] = value;
