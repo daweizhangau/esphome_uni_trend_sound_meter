@@ -27,7 +27,7 @@ class UnitTrendSoundMeter : public sensor::Sensor, public PollingComponent, publ
   void update() override;
   void gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if,
                            esp_ble_gattc_cb_param_t *param) override;
-
+  uint16_t handle;
   espbt::ESPBTUUID service_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF12);
   espbt::ESPBTUUID char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF01);
   espbt::ESPBTUUID descr_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF02);
