@@ -29,11 +29,11 @@ public:
                            esp_ble_gattc_cb_param_t *param) override;
 
 protected:
-  bool notify_;
+  bool notify_ = true;
   espbt::ESPBTUUID service_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF12);
-  espbt::ESPBTUUID char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF01);
+  espbt::ESPBTUUID input_char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF01);
   uint16_t control_handle;
-  espbt::ESPBTUUID descr_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF02);
+  espbt::ESPBTUUID output_char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF02);
   uint16_t handle;
 };
 }  // namespace uni_trend_sound_meter

@@ -40,29 +40,30 @@ void UnitTrendSoundMeter::gattc_event_handler(
     }
     case ESP_GATTC_SEARCH_CMPL_EVT: {
       ESP_LOGI(TAG, "[%s] Handling event: ESP_GATTC_SEARCH_CMPL_EVT (6)", this->get_name().c_str());
-      this->handle = 0;
-      auto *chr = this->parent()->get_characteristic(this->service_uuid_, this->char_uuid_);
-      if (chr == nullptr) {
+      // Look for output handle
+      this->output_handle_ = 0;
+      auto chr_output = this->parent()->get_characteristic(this->output_service_uuid_, this->output_char_uuid_);
+      if (chr_output == nullptr) {
         this->status_set_warning();
-        this->publish_state(NAN);
-        ESP_LOGW(TAG, "No sensor characteristic found at service %s char %s", this->service_uuid_.to_string().c_str(),
-                 this->char_uuid_.to_string().c_str());
+        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->output_service_uuid_.to_string().c_str(),
+                 this->output_char_uuid_.to_string().c_str());
         break;
       }
-      this->handle = chr->handle;
-      if (this->descr_uuid_.get_uuid().len > 0) {
-        auto *descr = chr->get_descriptor(this->descr_uuid_);
-        if (descr == nullptr) {
-          this->status_set_warning();
-          this->publish_state(NAN);
-          ESP_LOGW(TAG, "No sensor descriptor found at service %s char %s descr %s",
-                   this->service_uuid_.to_string().c_str(), this->char_uuid_.to_string().c_str(),
-                   this->descr_uuid_.to_string().c_str());
-          break;
-        }
-        this->handle = descr->handle;
+      this->output_handle_ = chr_output->handle;
+
+      // Look for input handle
+      this->input_handle_ = 0;
+      auto chr_input = this->parent()->get_characteristic(this->input_service_uuid_, this->input_char_uuid_);
+      if (chr_input == nullptr) {
+        this->status_set_warning();
+        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->input_service_uuid_.to_string().c_str(),
+                 this->input_char_uuid_.to_string().c_str());
+        break;
       }
+      this->input_handle_ = chr_input->handle;
+
       if (this->notify_) {
+        ESP_LOGI(TAG, "Register for notification");
         auto status =
             esp_ble_gattc_register_for_notify(this->parent()->gattc_if, this->parent()->remote_bda, chr->handle);
         if (status) {
@@ -118,8 +119,12 @@ void UnitTrendSoundMeter::update() {
     ESP_LOGW(TAG, "[%s] Cannot poll, not connected", this->get_name().c_str());
     return;
   }
-  if (this->handle == 0) {
-    ESP_LOGW(TAG, "[%s] Cannot poll, no service or characteristic found", this->get_name().c_str());
+  if (this->input_handle_ == 0) {
+    ESP_LOGW(TAG, "[%s] Cannot poll, input characteristic found", this->get_name().c_str());
+    return;
+  }
+  if (this->output_char_uuid_ == 0) {
+    ESP_LOGW(TAG, "[%s] Cannot poll, output characteristic found", this->get_name().c_str());
     return;
   }
 
