@@ -27,13 +27,14 @@ public:
   void update() override;
   void gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if,
                            esp_ble_gattc_cb_param_t *param) override;
-  uint16_t handle;
 
 protected:
   bool notify_;
   espbt::ESPBTUUID service_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF12);
   espbt::ESPBTUUID char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF01);
+  uint16_t control_handle;
   espbt::ESPBTUUID descr_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF02);
+  uint16_t handle;
 };
 }  // namespace uni_trend_sound_meter
 }  // namespace esphome

@@ -4,7 +4,7 @@
 #include "esphome/core/helpers.h"
 #include <string>
 
-#ifdef USE_ESP32
+#ifdef USE_ESP32    
 
 namespace esphome {
 namespace uni_trend_sound_meter {
@@ -23,7 +23,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
     esp_gattc_cb_event_t event, 
     esp_gatt_if_t gattc_if,
     esp_ble_gattc_cb_param_t *param) {
-  ESP_LOGI(TAG, "[%s] Handling event: %d", this->get_name().c_str(), static_cast<esp_gattc_cb_event_t>(event));
+  ESP_LOGI(TAG, "[%s] Handling event: %d", this->get_name().c_str(), event);
   switch (event) {
     case ESP_GATTC_OPEN_EVT: {
       if (param->open.status == ESP_GATT_OK) {
@@ -38,7 +38,8 @@ void UnitTrendSoundMeter::gattc_event_handler(
       this->publish_state(NAN);
       break;
     }
-    case ESP_GATTC_SEARCH_CMPL_EVT: {
+    case ESP_GATTC_CFG_MTU_EVT: {
+      ESP_LOGI(TAG, "[%s] Handling event: ESP_GATTC_SEARCH_CMPL_EVT (6)", this->get_name().c_str());
       this->handle = 0;
       auto *chr = this->parent()->get_characteristic(this->service_uuid_, this->char_uuid_);
       if (chr == nullptr) {
