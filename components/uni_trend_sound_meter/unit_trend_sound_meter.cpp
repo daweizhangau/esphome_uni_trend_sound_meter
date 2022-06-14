@@ -65,7 +65,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
       if (this->notify_) {
         ESP_LOGI(TAG, "Register for notification");
         auto status =
-            esp_ble_gattc_register_for_notify(this->parent()->gattc_if, this->parent()->remote_bda, chr->handle);
+            esp_ble_gattc_register_for_notify(this->parent()->gattc_if, this->parent()->remote_bda, this->output_handle_);
         if (status) {
           ESP_LOGW(TAG, "esp_ble_gattc_register_for_notify failed, status=%d", status);
         }
