@@ -23,7 +23,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
     esp_gattc_cb_event_t event, 
     esp_gatt_if_t gattc_if,
     esp_ble_gattc_cb_param_t *param) {
-  ESP_LOGI(TAG, "[%s] Handling event", this->get_name().c_str());
+  ESP_LOGI(TAG, "[%s] Handling event: %s", this->get_name().c_str(), event);
   switch (event) {
     case ESP_GATTC_OPEN_EVT: {
       if (param->open.status == ESP_GATT_OK) {
@@ -123,7 +123,7 @@ void UnitTrendSoundMeter::update() {
   }
 
   auto status =
-      esp_ble_gattc_read_char(this->parent()->gattc_if, this->parent()->conn_id, this->handle, ESP_GATT_AUTH_REQ_NONE);
+      esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, this->handle, ESP_GATT_AUTH_REQ_NONE);
   if (status) {
     this->status_set_warning();
     this->publish_state(NAN);
