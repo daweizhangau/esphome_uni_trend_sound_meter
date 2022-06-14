@@ -23,7 +23,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
     esp_gattc_cb_event_t event, 
     esp_gatt_if_t gattc_if,
     esp_ble_gattc_cb_param_t *param) {
-  ESP_LOGI(TAG, "[%s] Handling event: %s", this->get_name().c_str(), event);
+  ESP_LOGI(TAG, "[%s] Handling event: %d", this->get_name().c_str(), event);
   switch (event) {
     case ESP_GATTC_OPEN_EVT: {
       if (param->open.status == ESP_GATT_OK) {
@@ -122,7 +122,7 @@ void UnitTrendSoundMeter::update() {
     return;
   }
 
-  value = 0x5E
+  auto value = 0x5E
   uint8_t data[2];
   data[0] = value;
   data[1] = value >> 8;
