@@ -122,7 +122,7 @@ void UnitTrendSoundMeter::update() {
     return;
   }
 
-  auto value = 0x5E;
+  int value = 0x5E;
   uint8_t data[2];
   data[0] = value;
   data[1] = value >> 8;
