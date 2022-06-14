@@ -115,18 +115,19 @@ void UnitTrendSoundMeter::dump_config() {
 
 
 void UnitTrendSoundMeter::update() {
+  ESP_LOGI(TAG,  "[%s] Updating", this->get_name().c_str());
   if (this->node_state != espbt::ClientState::ESTABLISHED) {
     ESP_LOGW(TAG, "[%s] Cannot poll, not connected", this->get_name().c_str());
     return;
   }
-  if (this->input_handle_ == 0) {
-    ESP_LOGW(TAG, "[%s] Cannot poll, input characteristic found", this->get_name().c_str());
-    return;
-  }
-  if (this->output_char_uuid_ == 0) {
-    ESP_LOGW(TAG, "[%s] Cannot poll, output characteristic found", this->get_name().c_str());
-    return;
-  }
+  // if (this->input_handle_ == 0) {
+  //   ESP_LOGW(TAG, "[%s] Cannot poll, input characteristic found", this->get_name().c_str());
+  //   return;
+  // }
+  // if (this->output_char_uuid_ == 0) {
+  //   ESP_LOGW(TAG, "[%s] Cannot poll, output characteristic found", this->get_name().c_str());
+  //   return;
+  // }
 
   // int value = 0x5E;
   // uint8_t data[2];
