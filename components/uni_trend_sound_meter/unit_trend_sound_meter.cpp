@@ -81,7 +81,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
         ESP_LOGW(TAG, "Error reading char at handle %d, status=%d", param->read.handle, param->read.status);
         break;
       }
-      if (param->read.handle == this->handle) {
+      if (param->read.handle == this->output_handle_) {
         this->status_clear_warning();
         // this->publish_state(this->parse_data_(param->read.value, param->read.value_len));
       }
