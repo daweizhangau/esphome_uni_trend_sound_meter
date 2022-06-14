@@ -42,10 +42,10 @@ void UnitTrendSoundMeter::gattc_event_handler(
       ESP_LOGI(TAG, "[%s] Handling event: ESP_GATTC_SEARCH_CMPL_EVT (6)", this->get_name().c_str());
       // Look for output handle
       this->output_handle_ = 0;
-      auto chr_output = this->parent()->get_characteristic(this->output_service_uuid_, this->output_char_uuid_);
+      auto chr_output = this->parent()->get_characteristic(this->service_uuid_, this->output_char_uuid_);
       if (chr_output == nullptr) {
         this->status_set_warning();
-        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->output_service_uuid_.to_string().c_str(),
+        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->service_uuid_.to_string().c_str(),
                  this->output_char_uuid_.to_string().c_str());
         break;
       }
@@ -53,10 +53,10 @@ void UnitTrendSoundMeter::gattc_event_handler(
 
       // Look for input handle
       this->input_handle_ = 0;
-      auto chr_input = this->parent()->get_characteristic(this->input_service_uuid_, this->input_char_uuid_);
+      auto chr_input = this->parent()->get_characteristic(this->service_uuid_, this->input_char_uuid_);
       if (chr_input == nullptr) {
         this->status_set_warning();
-        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->input_service_uuid_.to_string().c_str(),
+        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->service_uuid_.to_string().c_str(),
                  this->input_char_uuid_.to_string().c_str());
         break;
       }
