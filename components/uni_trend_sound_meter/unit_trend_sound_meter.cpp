@@ -125,7 +125,7 @@ float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
   // } else {
   //   return value[0];
   // }
-  return 0f;
+  return 0.0;
 }
 
 void UnitTrendSoundMeter::dump_config() {
