@@ -24,7 +24,7 @@ CONFIG_SCHEMA = cv.All(
         unit_of_measurement="dBA",
         icon="mdi:waveform"
     )
-    .extend(cv.polling_component_schema("1s"))
+    .extend(cv.polling_component_schema("3s"))
     .extend(ble_client.BLE_CLIENT_SCHEMA)
 )
 
