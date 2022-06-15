@@ -139,9 +139,8 @@ void UnitTrendSoundMeter::dump_config() {
 }
 
 void UnitTrendSoundMeter::write_value_(uint16_t handle, unsigned short value) {
-  uint8_t data[2];
+  uint8_t data[1];
   data[0] = value;
-  data[1] = value >> 8;
 
   esp_err_t status = ::esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, handle, 2, data,
                                                 ESP_GATT_WRITE_TYPE_NO_RSP, ESP_GATT_AUTH_REQ_NONE);
