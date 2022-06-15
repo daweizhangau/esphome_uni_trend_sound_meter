@@ -90,24 +90,10 @@ void UnitTrendSoundMeter::gattc_event_handler(
     case ESP_GATTC_NOTIFY_EVT: {
       if (param->notify.conn_id != this->parent()->conn_id || param->notify.handle != this->output_handle_)
         break;
-      ESP_LOGI(TAG, "[%s] ESP_GATTC_NOTIFY_EVT: handle=0x%x, value=0x%x%x%x%x%x%x%x%x%x%x%x%x%x%x, length=%d", this->get_name().c_str(),
+      ESP_LOGI(TAG, "[%s] ESP_GATTC_NOTIFY_EVT: handle=0x%x, length=%d", this->get_name().c_str(),
                param->notify.handle, 
-               param->notify.value[0],
-               param->notify.value[1],
-               param->notify.value[2],
-               param->notify.value[3],
-               param->notify.value[4],
-               param->notify.value[5],
-               param->notify.value[6],
-               param->notify.value[7],
-               param->notify.value[8],
-               param->notify.value[9],
-               param->notify.value[10],
-               param->notify.value[11],
-               param->notify.value[12],
-               param->notify.value[13],
                param->notify.value_len);
-      // this->publish_state(this->parse_data_(param->notify.value, param->notify.value_len));
+      this->publish_state(this->parse_data_(param->notify.value, param->notify.value_len));
       break;
     }
     case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
@@ -120,13 +106,11 @@ void UnitTrendSoundMeter::gattc_event_handler(
 }
 
 float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
-  // if (this->data_to_value_func_.has_value()) {
-  //   std::vector<uint8_t> data(value, value + value_len);
-  //   return (*this->data_to_value_func_)(data);
-  // } else {
-  //   return value[0];
-  // }
-  return 0.0;
+  // std::vector<uint8_t> data(value + 7, 4);
+  char* start = (char*)(value + 7)
+  std::string s(start, 4);
+  optional<float> y = parse_number<float>(&s);
+  return y.value_or(0.0);
 }
 
 void UnitTrendSoundMeter::dump_config() {
