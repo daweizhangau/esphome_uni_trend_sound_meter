@@ -90,7 +90,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
     case ESP_GATTC_NOTIFY_EVT: {
       if (param->notify.conn_id != this->parent()->conn_id || param->notify.handle != this->output_handle_)
         break;
-      ESP_LOGI(TAG, "[%s] ESP_GATTC_NOTIFY_EVT: handle=0x%x, value=0x%x%x%x%x%x%x%x%x%x%x%x%x%x%x", this->get_name().c_str(),
+      ESP_LOGI(TAG, "[%s] ESP_GATTC_NOTIFY_EVT: handle=0x%x, value=0x%x%x%x%x%x%x%x%x%x%x%x%x%x%x, length=%d", this->get_name().c_str(),
                param->notify.handle, 
                param->notify.value[0],
                param->notify.value[1],
@@ -105,7 +105,8 @@ void UnitTrendSoundMeter::gattc_event_handler(
                param->notify.value[10],
                param->notify.value[11],
                param->notify.value[12],
-               param->notify.value[13]);
+               param->notify.value[13],
+               param->notify.value_len);
       // this->publish_state(this->parse_data_(param->notify.value, param->notify.value_len));
       break;
     }
