@@ -28,6 +28,9 @@ public:
   void gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t gattc_if,
                            esp_ble_gattc_cb_param_t *param) override;
 
+protected:
+  float parse_data_(uint8_t *value, uint16_t value_len);
+
 private:
   bool notify_ = true;
   espbt::ESPBTUUID service_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF12);
