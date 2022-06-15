@@ -106,11 +106,8 @@ void UnitTrendSoundMeter::gattc_event_handler(
 }
 
 float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
-  // std::vector<uint8_t> data(value + 7, 4);
-  char* start = (char*)(value + 7);
-  std::string s(start, 4);
-  optional<float> y = parse_number<float>(&s);
-  return y.value_or(0.0);
+
+  return (float)((value[7] - '0')*10.0 + (value[8] - '0') + (value[10] - '0') / 10.0);
 }
 
 void UnitTrendSoundMeter::dump_config() {
