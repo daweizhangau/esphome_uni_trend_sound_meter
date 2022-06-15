@@ -119,12 +119,13 @@ void UnitTrendSoundMeter::gattc_event_handler(
 }
 
 float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
-  if (this->data_to_value_func_.has_value()) {
-    std::vector<uint8_t> data(value, value + value_len);
-    return (*this->data_to_value_func_)(data);
-  } else {
-    return value[0];
-  }
+  // if (this->data_to_value_func_.has_value()) {
+  //   std::vector<uint8_t> data(value, value + value_len);
+  //   return (*this->data_to_value_func_)(data);
+  // } else {
+  //   return value[0];
+  // }
+  return 0f;
 }
 
 void UnitTrendSoundMeter::dump_config() {
