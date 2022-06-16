@@ -108,6 +108,7 @@ float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
   uint8_t * sub_value = value + 6;
   std::string text(sub_value, sub_value + 5);
   ESP_LOGI(TAG, "[%s] Parsing %s", this->get_name().c_str(), text.c_str());
+  ESP_LOGI(TAG, "[%s] Parsing %f", this->get_name().c_str(), parse_number<float>(text.c_str()).value_or(0.0));
 
   return (float)((value[7] - '0')*10.0 + (value[8] - '0') + (value[10] - '0') / 10.0);
 }
