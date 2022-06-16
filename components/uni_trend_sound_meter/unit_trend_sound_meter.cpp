@@ -12,6 +12,8 @@ namespace uni_trend_sound_meter {
 static const char *const TAG = "uni_trend_sound_meter";
 static const unsigned short CMD_QUERY = 0x5E;
 static const uint16_t CMD_LENGTH = 1;
+static const uint8_t MEASUREMENT_VALUE_START_INDEX = 6;
+static const uint16_t MEASUREMENT_VALUE_LENGTH = 5;
 
 namespace espbt = esphome::esp32_ble_tracker;
 
@@ -105,8 +107,8 @@ optional<float> UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_
   if(value_len != 19)
     return nullopt;
   
-  uint8_t* sub_value = value + 6;
-  std::string text(sub_value, sub_value + 5);
+  uint8_t* sub_value = value + MEASUREMENT_VALUE_START_INDEX;
+  std::string text(sub_value, sub_value + MEASUREMENT_VALUE_LENGTH);
   ESP_LOGV(TAG, "[%s] Parsing %s", this->get_name().c_str(), text.c_str());
 
   return parse_number<float>(text.c_str());
