@@ -10,6 +10,7 @@ namespace esphome {
 namespace uni_trend_sound_meter {
 
 static const char *const TAG = "uni_trend_sound_meter";
+static const unsigned short CMD_QUERY = 0x5E;
 
 namespace espbt = esphome::esp32_ble_tracker;
 
@@ -23,7 +24,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
     esp_gattc_cb_event_t event, 
     esp_gatt_if_t gattc_if,
     esp_ble_gattc_cb_param_t *param) {
-  ESP_LOGI(TAG, "[%s] Handling event: %d", this->get_name().c_str(), event);
+  ESP_LOGV(TAG, "[%s] Handling event: %d", this->get_name().c_str(), event);
   switch (event) {
     case ESP_GATTC_OPEN_EVT: {
       if (param->open.status == ESP_GATT_OK) {
@@ -74,19 +75,6 @@ void UnitTrendSoundMeter::gattc_event_handler(
       }
       break;
     }
-    case ESP_GATTC_READ_CHAR_EVT: {
-      if (param->read.conn_id != this->parent()->conn_id)
-        break;
-      if (param->read.status != ESP_GATT_OK) {
-        ESP_LOGW(TAG, "Error reading char at handle %d, status=%d", param->read.handle, param->read.status);
-        break;
-      }
-      if (param->read.handle == this->output_handle_) {
-        this->status_clear_warning();
-        // this->publish_state(this->parse_data_(param->read.value, param->read.value_len));
-      }
-      break;
-    }
     case ESP_GATTC_NOTIFY_EVT: {
       if (param->notify.conn_id != this->parent()->conn_id || param->notify.handle != this->output_handle_)
         break;
@@ -106,6 +94,11 @@ void UnitTrendSoundMeter::gattc_event_handler(
 }
 
 float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
+  if(value_len != 19)
+    return 0.0;
+  
+  if(!(value[11] == 0x64 && value[12] == 0x42 && value[13] == 0x41))
+    return 0.0;
 
   return (float)((value[7] - '0')*10.0 + (value[8] - '0') + (value[10] - '0') / 10.0);
 }
@@ -114,8 +107,8 @@ void UnitTrendSoundMeter::dump_config() {
   LOG_SENSOR("", "UNI-T UT353BT", this);
   ESP_LOGCONFIG(TAG, "  MAC address        : %s", this->parent()->address_str().c_str());
   ESP_LOGCONFIG(TAG, "  Service UUID       : %s", this->service_uuid_.to_string().c_str());
-  ESP_LOGCONFIG(TAG, "  Input UUID: %s", this->input_char_uuid_.to_string().c_str());
-  ESP_LOGCONFIG(TAG, "  Output UUID: %s", this->output_char_uuid_.to_string().c_str());
+  ESP_LOGCONFIG(TAG, "  Input character UUID: %s", this->input_char_uuid_.to_string().c_str());
+  ESP_LOGCONFIG(TAG, "  Output character UUID: %s", this->output_char_uuid_.to_string().c_str());
   LOG_UPDATE_INTERVAL(this);
 }
 
@@ -133,29 +126,12 @@ void UnitTrendSoundMeter::write_value_(uint16_t handle, unsigned short value) {
 }
 
 void UnitTrendSoundMeter::update() {
-  // if (this->input_handle_ == 0) {
-  //   ESP_LOGW(TAG, "[%s] Cannot poll, input characteristic found", this->get_name().c_str());
-  //   return;
-  // }
-  // if (this->output_char_uuid_ == 0) {
-  //   ESP_LOGW(TAG, "[%s] Cannot poll, output characteristic found", this->get_name().c_str());
-  //   return;
-  // }
+  if (this->input_handle_ == 0) {
+    ESP_LOGW(TAG, "[%s] Cannot poll, input characteristic found", this->get_name().c_str());
+    return;
+  }
 
-  this->write_value_(this->input_handle_, 0x5E);
-  // int value = 0x5E;
-  // uint8_t data[2];
-  // data[0] = value;
-  // data[1] = value >> 8;
-
-  // auto status =
-  //     esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, handle, 2, value,
-  //                                               ESP_GATT_WRITE_TYPE_NO_RSP, ESP_GATT_AUTH_REQ_NONE);
-  // if (status) {
-  //   this->status_set_warning();
-  //   this->publish_state(NAN);
-  //   ESP_LOGW(TAG, "[%s] Error sending read request for sensor, status=%d", this->get_name().c_str(), status);
-  // }
+  this->write_value_(this->input_handle_, CMD_QUERY);
 }
 
 }  // namespace ble_client
