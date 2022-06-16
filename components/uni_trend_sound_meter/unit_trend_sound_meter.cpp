@@ -35,6 +35,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
     }
     case ESP_GATTC_DISCONNECT_EVT: {
       ESP_LOGW(TAG, "[%s] Disconnected!", this->get_name().c_str());
+      this->node_state = espbt::ClientState::IDLE;
       this->status_set_warning();
       this->publish_state(NAN);
       break;
@@ -85,6 +86,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
       break;
     }
     case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
+      ESP_LOGI(TAG, "[%s] ESP_GATTC_REG_FOR_NOTIFY_EVT: handle=0x%x, length=%d", this->get_name().c_str());
       this->node_state = espbt::ClientState::ESTABLISHED;
       break;
     }
@@ -126,8 +128,12 @@ void UnitTrendSoundMeter::write_value_(uint16_t handle, unsigned short value) {
 }
 
 void UnitTrendSoundMeter::update() {
+  if (this->node_state != espbt::ClientState::ESTABLISHED) {
+    ESP_LOGW(TAG, "[%s] Cannot poll, not connected", this->get_name().c_str());
+    return;
+  }
   if (this->input_handle_ == 0) {
-    ESP_LOGW(TAG, "[%s] Cannot poll, input characteristic found", this->get_name().c_str());
+    ESP_LOGW(TAG, "[%s] Cannot poll, no service or characteristic found for input", this->get_name().c_str());
     return;
   }
 
