@@ -11,6 +11,7 @@ namespace uni_trend_sound_meter {
 
 static const char *const TAG = "uni_trend_sound_meter";
 static const unsigned short CMD_QUERY = 0x5E;
+static const uint16_t CMD_LENGTH = 1;
 
 namespace espbt = esphome::esp32_ble_tracker;
 
@@ -41,7 +42,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
       break;
     }
     case ESP_GATTC_SEARCH_CMPL_EVT: {
-      ESP_LOGI(TAG, "[%s] Handling event: ESP_GATTC_SEARCH_CMPL_EVT (6)", this->get_name().c_str());
+      ESP_LOGI(TAG, "[%s] Service discovery is completed", this->get_name().c_str());
       // Look for output handle
       this->output_handle_ = 0;
       auto chr_output = this->parent()->get_characteristic(this->service_uuid_, this->output_char_uuid_);
@@ -65,7 +66,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
       this->input_handle_ = chr_input->handle;
 
       if (this->notify_) {
-        ESP_LOGI(TAG, "Register for notification");
+        ESP_LOGI(TAG, "Registering for notification");
         auto status =
             esp_ble_gattc_register_for_notify(this->parent()->gattc_if, this->parent()->remote_bda, this->output_handle_);
         if (status) {
@@ -79,14 +80,14 @@ void UnitTrendSoundMeter::gattc_event_handler(
     case ESP_GATTC_NOTIFY_EVT: {
       if (param->notify.conn_id != this->parent()->conn_id || param->notify.handle != this->output_handle_)
         break;
-      ESP_LOGI(TAG, "[%s] ESP_GATTC_NOTIFY_EVT: handle=0x%x, length=%d", this->get_name().c_str(),
+      ESP_LOGV(TAG, "[%s] GATT Notification: handle=0x%x, value_length=%d", this->get_name().c_str(),
                param->notify.handle, 
                param->notify.value_len);
       this->publish_state(this->parse_data_(param->notify.value, param->notify.value_len));
       break;
     }
     case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
-      ESP_LOGI(TAG, "[%s] ESP_GATTC_REG_FOR_NOTIFY_EVT", this->get_name().c_str());
+      ESP_LOGI(TAG, "[%s] Register for notification completed", this->get_name().c_str());
       this->node_state = espbt::ClientState::ESTABLISHED;
       break;
     }
@@ -106,25 +107,12 @@ float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
 }
 
 void UnitTrendSoundMeter::dump_config() {
-  LOG_SENSOR("", "UNI-T UT353BT", this);
+  LOG_SENSOR("", "UNI-T UT353BT Mini Sound Meter", this);
   ESP_LOGCONFIG(TAG, "  MAC address        : %s", this->parent()->address_str().c_str());
   ESP_LOGCONFIG(TAG, "  Service UUID       : %s", this->service_uuid_.to_string().c_str());
   ESP_LOGCONFIG(TAG, "  Input character UUID: %s", this->input_char_uuid_.to_string().c_str());
   ESP_LOGCONFIG(TAG, "  Output character UUID: %s", this->output_char_uuid_.to_string().c_str());
   LOG_UPDATE_INTERVAL(this);
-}
-
-void UnitTrendSoundMeter::write_value_(uint16_t handle, unsigned short value) {
-  uint8_t data[1];
-  data[0] = value;
-
-  esp_err_t status = ::esp_ble_gattc_write_char(this->parent()->gattc_if, this->parent()->conn_id, handle, 2, data,
-                                                ESP_GATT_WRITE_TYPE_NO_RSP, ESP_GATT_AUTH_REQ_NONE);
-
-  if (status != ESP_OK) {
-    this->status_set_warning();
-    ESP_LOGW(TAG, "[%s] Error sending write request for cover, status=%d", this->get_name().c_str(), status);
-  }
 }
 
 void UnitTrendSoundMeter::update() {
@@ -137,7 +125,19 @@ void UnitTrendSoundMeter::update() {
     return;
   }
 
-  this->write_value_(this->input_handle_, CMD_QUERY);
+  esp_err_t status = ::esp_ble_gattc_write_char(
+    this->parent()->gattc_if, 
+    this->parent()->conn_id, 
+    this->input_handle_, 
+    CMD_LENGTH, 
+    (uint8_t*)(&CMD_QUERY),
+    ESP_GATT_WRITE_TYPE_NO_RSP,
+    ESP_GATT_AUTH_REQ_NONE);
+
+  if (status != ESP_OK) {
+    this->status_set_warning();
+    ESP_LOGW(TAG, "[%s] Error sending write request for cover, status=%d", this->get_name().c_str(), status);
+  }
 }
 
 }  // namespace ble_client
