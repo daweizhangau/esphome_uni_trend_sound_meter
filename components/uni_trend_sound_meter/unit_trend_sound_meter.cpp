@@ -83,7 +83,10 @@ void UnitTrendSoundMeter::gattc_event_handler(
       ESP_LOGV(TAG, "[%s] GATT Notification: handle=0x%x, value_length=%d", this->get_name().c_str(),
                param->notify.handle, 
                param->notify.value_len);
-      this->publish_state(this->parse_data_(param->notify.value, param->notify.value_len));
+      auto parsed = this->parse_data_(param->notify.value, param->notify.value_len);
+      if(parsed.has_value()) {
+        this->publish_state();
+      }
       break;
     }
     case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
@@ -98,19 +101,15 @@ void UnitTrendSoundMeter::gattc_event_handler(
 
 // Sample data 0xAABB10013B203130312E316442413D3400041A for 101.1dBA
 //             0xAABB10013B202033372E396442413D3400041A for  37.9dBA
-float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
+optional<float> UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
   if(value_len != 19)
-    return 0.0;
+    return nullopt;
   
-  if(!(value[11] == 0x64 && value[12] == 0x42 && value[13] == 0x41))
-    return 0.0;
-  
-  uint8_t * sub_value = value + 6;
+  uint8_t* sub_value = value + 6;
   std::string text(sub_value, sub_value + 5);
-  ESP_LOGI(TAG, "[%s] Parsing %s", this->get_name().c_str(), text.c_str());
-  ESP_LOGI(TAG, "[%s] Parsing %f", this->get_name().c_str(), parse_number<float>(text.c_str()).value_or(0.0));
+  ESP_LOGV(TAG, "[%s] Parsing %s", this->get_name().c_str(), text.c_str());
 
-  return (float)((value[7] - '0')*10.0 + (value[8] - '0') + (value[10] - '0') / 10.0);
+  return parse_number<float>(text.c_str());
 }
 
 void UnitTrendSoundMeter::dump_config() {
