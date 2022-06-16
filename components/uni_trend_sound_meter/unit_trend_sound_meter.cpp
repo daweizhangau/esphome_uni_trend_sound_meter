@@ -96,13 +96,19 @@ void UnitTrendSoundMeter::gattc_event_handler(
   }
 }
 
+// Sample data 0xAABB10013B203130312E316442413D3400041A for 101.1dBA
+//             0xAABB10013B202033372E396442413D3400041A for  37.9dBA
 float UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_len) {
   if(value_len != 19)
     return 0.0;
   
   if(!(value[11] == 0x64 && value[12] == 0x42 && value[13] == 0x41))
     return 0.0;
-
+  
+  uint8_t * sub_value = value + 6
+  std::string text(sub_value, sub_value + 5);
+  ESP_LOGI(TAG, "[%s] Parsing %s", this->get_name().c_str(), text);
+  
   return (float)((value[7] - '0')*10.0 + (value[8] - '0') + (value[10] - '0') / 10.0);
 }
 
