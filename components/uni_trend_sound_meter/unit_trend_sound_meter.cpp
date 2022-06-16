@@ -86,7 +86,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
       break;
     }
     case ESP_GATTC_REG_FOR_NOTIFY_EVT: {
-      ESP_LOGI(TAG, "[%s] ESP_GATTC_REG_FOR_NOTIFY_EVT: handle=0x%x, length=%d", this->get_name().c_str());
+      ESP_LOGI(TAG, "[%s] ESP_GATTC_REG_FOR_NOTIFY_EVT: handle=0x%x", this->get_name().c_str());
       this->node_state = espbt::ClientState::ESTABLISHED;
       break;
     }
