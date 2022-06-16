@@ -19,8 +19,6 @@ espbt::ESPBTUUID uuid128_from_string(std::string value);
 class UnitTrendSoundMeter : public sensor::Sensor, public PollingComponent, public BLEClientNode {
 
 public:
-//   float get_setup_priority() const override { return setup_priority::LATE; }
-//   void setup() override;
   void dump_config() override;
 
   void loop() override;

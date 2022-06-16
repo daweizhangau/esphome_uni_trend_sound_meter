@@ -1,4 +1,4 @@
-#include "unit_trend_sound_meter.h"
+#include "uni_trend_sound_meter.h"
 
 #include "esphome/core/log.h"
 #include "esphome/core/helpers.h"

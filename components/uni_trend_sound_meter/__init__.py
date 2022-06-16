@@ -1,15 +1,13 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor, ble_client
-from esphome.const import CONF_ID
 
 DEPENDENCIES = ['esp32', 'ble_client']
 
 AUTO_LOAD = ['sensor']
 MULTI_CONF = True
 
-CONF_CONTROLLER_ID = 'unit_trend_sound_meter_id'
-CONF_ONLY_UP_DOWN_COMMAND = 'only_up_down_command'
+CONF_CONTROLLER_ID = 'uni_trend_sound_meter_id'
 
 sensor_namespace = cg.esphome_ns.namespace('uni_trend_sound_meter')
 
