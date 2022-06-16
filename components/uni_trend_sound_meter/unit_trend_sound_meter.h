@@ -29,7 +29,7 @@ public:
                            esp_ble_gattc_cb_param_t *param) override;
 
 protected:
-  float parse_data_(uint8_t *value, uint16_t value_len);
+  optional<float> parse_data_(uint8_t *value, uint16_t value_len);
 
 private:
   bool notify_ = true;
@@ -38,7 +38,6 @@ private:
   uint16_t input_handle_;
   espbt::ESPBTUUID output_char_uuid_ = espbt::ESPBTUUID::from_uint16(0xFF02);
   uint16_t output_handle_;
-  void write_value_(uint16_t handle, unsigned short value);
 };
 }  // namespace uni_trend_sound_meter
 }  // namespace esphome
