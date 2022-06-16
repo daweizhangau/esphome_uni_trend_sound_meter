@@ -85,7 +85,7 @@ void UnitTrendSoundMeter::gattc_event_handler(
                param->notify.value_len);
       auto parsed = this->parse_data_(param->notify.value, param->notify.value_len);
       if(parsed.has_value()) {
-        this->publish_state();
+        this->publish_state(parsed.value());
       }
       break;
     }
