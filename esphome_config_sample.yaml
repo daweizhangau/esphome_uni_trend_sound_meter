@@ -1,0 +1,16 @@
+external_components:
+  - source: github://daweizhangau/esphome_uni_trend_sound_meter@v1.0.0 
+
+# ...
+
+esp32_ble_tracker:
+
+ble_client:
+  - mac_address: 00:00:00:00:00:00
+    id: sound_meter_ble_client
+
+uni_trend_sound_meter:
+  - name: "UNI-T Mini Sound Meter UT353BT"
+    ble_client_id: sound_meter_ble_client
+
+# ...
