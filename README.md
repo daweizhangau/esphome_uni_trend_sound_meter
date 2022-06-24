@@ -61,7 +61,8 @@ uni_trend_sound_meter:
     # [Required] Name or ID is required.
     name: "Sound Level"
     # [Optional] Enhance entity with icon and unit.
-    icon: 'mdi:microphone-variant'
+    icon: 'mdi:microphone'
+    # [Optional] Defaut value is dBA
     unit_of_measurement: 'dBA'
     # [Required] Reference to the ble_client.id set above
     ble_client_id: sound_meter_ble_client
