@@ -20,7 +20,7 @@ CONFIG_SCHEMA = cv.All(
         accuracy_decimals=1,
         device_class="signal_strength",
         unit_of_measurement="dBA",
-        icon="mdi:waveform"
+        icon="mdi:microphone"
     )
     .extend(cv.polling_component_schema("1s"))
     .extend(ble_client.BLE_CLIENT_SCHEMA)
