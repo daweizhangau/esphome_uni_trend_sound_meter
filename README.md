@@ -15,7 +15,7 @@ After this integration, the sound meter can work with Home Assitant. Every time 
 You can install this component with [ESPHome external components feature](https://esphome.io/components/external_components.html) like this:
 ```yaml
 external_components:
-  - source: github://daweizhangau/esphome_uni_trend_sound_meter@v1.0.0 
+  - source: github://daweizhangau/esphome_uni_trend_sound_meter@main
 ```
 
 ## Configuration
