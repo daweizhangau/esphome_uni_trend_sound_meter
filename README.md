@@ -2,7 +2,7 @@
 
 This is a bridge for a [Uni-T Mini Sound Level Meter UT353BT](https://www.uni-trend.com/meters/html/product/Environmental/Environmental_Tester/Mini/UT353.html) and an [ESP32 device](https://esphome.io/devices/esp32.html).
 
-After this integration, the sound meter can work with Home Assitant. Every time the meter is powered on and its Bluetooth is enabled, ESP32 device can connect to it automatically and start to collect the measurement (dBA)[https://www.nexflow.com/blog/what-does-dba-mean/].
+After this integration, the sound meter can work with Home Assitant. Every time the meter is powered on and its Bluetooth is enabled, ESP32 device can connect to it automatically and start to collect the measurement [dBA](https://www.nexflow.com/blog/what-does-dba-mean/).
 ![Home Assistant Sound Meter](images/ha_sound_meter.png)
 
 ## Dependencies
