@@ -29,15 +29,17 @@ You need the following components. For full configuration example, please refere
 1. Add `esp32_ble_tracker` to your ESPHome device config
     ```yaml
     esp32_ble_tracker:
+
+    text_sensor:
+      - platform: ble_scanner
+        name: "BLE Devices Scanner"
     ```
 2. Install to ESP32 device
 3. Open log of your ESP32 device
 4. Turn on Bluetooth of your sound meter
 5. Look for 
     ```text
-    [...][D][esp32_ble_tracker:726]: Found device 00:00:00:00:00:00 RSSI=-29
-    [...][D][esp32_ble_tracker:747]:   Address Type: PUBLIC
-    [...][D][esp32_ble_tracker:749]:   Name: 'UT353BT'
+    [...[D][text_sensor:064]: 'BLE Devices Scanner': Sending state '{"timestamp":131,"address":"00:00:00:00:00:00","rssi":-48,"name":"UT353BT"}'
     ```
 `00:00:00:00:00:00` above is MAC address of your sound meter.
 
