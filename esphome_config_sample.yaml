@@ -1,3 +1,4 @@
+esphome:
 external_components:
   - source: github://daweizhangau/esphome_uni_trend_sound_meter@v1.0.0 
 
