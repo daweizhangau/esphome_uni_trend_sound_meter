@@ -1,7 +1,9 @@
 esphome:
   name: uni_trend_sound_meter_sample
+esp32:
+  board: esp32dev
 external_components:
-  - source: github://daweizhangau/esphome_uni_trend_sound_meter@v1.0.0 
+  - source: github://tsgoff/esphome_uni_trend_sound_meter/tree/2026.4.5
 
 # ...
 
