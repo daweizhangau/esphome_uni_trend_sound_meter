@@ -50,8 +50,8 @@ void UnitTrendSoundMeter::gattc_event_handler(
       auto chr_output = this->parent()->get_characteristic(this->service_uuid_, this->output_char_uuid_);
       if (chr_output == nullptr) {
         this->status_set_warning();
-        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->service_uuid_.to_string().c_str(),
-                 this->output_char_uuid_.to_string().c_str());
+        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->service_uuid_.to_str(),
+                 this->output_char_uuid_.to_str());
         break;
       }
       this->output_handle_ = chr_output->handle;
@@ -61,8 +61,8 @@ void UnitTrendSoundMeter::gattc_event_handler(
       auto chr_input = this->parent()->get_characteristic(this->service_uuid_, this->input_char_uuid_);
       if (chr_input == nullptr) {
         this->status_set_warning();
-        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->service_uuid_.to_string().c_str(),
-                 this->input_char_uuid_.to_string().c_str());
+        ESP_LOGW(TAG, "No characteristic found at service %s char %s", this->service_uuid_.to_str(),
+                 this->input_char_uuid_.to_str());
         break;
       }
       this->input_handle_ = chr_input->handle;
@@ -117,9 +117,9 @@ optional<float> UnitTrendSoundMeter::parse_data_(uint8_t *value, uint16_t value_
 void UnitTrendSoundMeter::dump_config() {
   LOG_SENSOR("", "UNI-T UT353BT Mini Sound Meter", this);
   ESP_LOGCONFIG(TAG, "  MAC address        : %s", this->parent()->address_str());
-  ESP_LOGCONFIG(TAG, "  Service UUID       : %s", this->service_uuid_.to_string().c_str());
-  ESP_LOGCONFIG(TAG, "  Input character UUID: %s", this->input_char_uuid_.to_string().c_str());
-  ESP_LOGCONFIG(TAG, "  Output character UUID: %s", this->output_char_uuid_.to_string().c_str());
+  ESP_LOGCONFIG(TAG, "  Service UUID       : %s", this->service_uuid_.to_str());
+  ESP_LOGCONFIG(TAG, "  Input character UUID: %s", this->input_char_uuid_.to_str());
+  ESP_LOGCONFIG(TAG, "  Output character UUID: %s", this->output_char_uuid_.to_str());
   LOG_UPDATE_INTERVAL(this);
 }
 
