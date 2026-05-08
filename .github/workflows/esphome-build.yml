@@ -1,11 +1,5 @@
 name: ESPHome Build Test
 
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
-
 jobs:
   esphome-build:
     runs-on: ubuntu-latest
