@@ -137,7 +137,7 @@ void UnitTrendSoundMeter::update() {
     this->parent()->get_gattc_if(),
     this->parent()->get_conn_id(),
     this->input_handle_, 
-    CMD_LENGTH, 
+    CMD_LENGTH,
     (uint8_t*)(&CMD_QUERY),
     ESP_GATT_WRITE_TYPE_NO_RSP,
     ESP_GATT_AUTH_REQ_NONE);
