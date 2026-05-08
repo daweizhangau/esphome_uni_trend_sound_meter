@@ -3,7 +3,7 @@ esphome:
 esp32:
   board: esp32dev
 external_components:
-  - source: github://tsgoff/esphome_uni_trend_sound_meter/tree/2026.4.5
+  - source: github://daweizhangau/esphome_uni_trend_sound_meter@v1.0.0
 
 # ...
 
