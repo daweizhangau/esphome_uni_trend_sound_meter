@@ -69,8 +69,9 @@ void UnitTrendSoundMeter::gattc_event_handler(
 
       if (this->notify_) {
         ESP_LOGI(TAG, "Registering for notification");
+        auto *ble_parent = static_cast<esphome::esp32_ble_client::BLEClientBase *>(this->parent());
         auto status =
-            esp_ble_gattc_register_for_notify(this->parent()->get_gattc_if(), this->parent()->get_remote_bda(), this->output_handle_);
+            esp_ble_gattc_register_for_notify(ble_parent->get_gattc_if(), ble_parent->get_remote_bda(), this->output_handle_);
         if (status) {
           ESP_LOGW(TAG, "esp_ble_gattc_register_for_notify failed, status=%d", status);
         }
@@ -80,8 +81,11 @@ void UnitTrendSoundMeter::gattc_event_handler(
       break;
     }
     case ESP_GATTC_NOTIFY_EVT: {
-      if (param->notify.conn_id != this->parent()->get_conn_id() || param->notify.handle != this->output_handle_)
-        break;
+      {
+        auto *ble_parent = static_cast<esphome::esp32_ble_client::BLEClientBase *>(this->parent());
+        if (param->notify.conn_id != ble_parent->get_conn_id() || param->notify.handle != this->output_handle_)
+          break;
+      }
       ESP_LOGV(TAG, "[%s] GATT Notification: handle=0x%x, value_length=%d", this->get_name().c_str(),
                param->notify.handle, 
                param->notify.value_len);
@@ -133,9 +137,10 @@ void UnitTrendSoundMeter::update() {
     return;
   }
 
+  auto *ble_parent = static_cast<esphome::esp32_ble_client::BLEClientBase *>(this->parent());
   esp_err_t status = ::esp_ble_gattc_write_char(
-    this->parent()->get_gattc_if(),
-    this->parent()->get_conn_id(),
+    ble_parent->get_gattc_if(),
+    ble_parent->get_conn_id(),
     this->input_handle_, 
     CMD_LENGTH,
     (uint8_t*)(&CMD_QUERY),
