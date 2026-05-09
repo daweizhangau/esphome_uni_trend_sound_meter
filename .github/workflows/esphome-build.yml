@@ -26,4 +26,4 @@ jobs:
 
       - name: Build ESPHome config
         run: |
-          esphome compile esphome_config_sample.yaml
+          esphome compile esphome_config_local_build.yaml
