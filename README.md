@@ -1,4 +1,4 @@
-# ESPHome Component: Uni-T (Uni Trend) Mini Sound Level Meter
+# ESPHome Component: Uni-T (Uni Trend) Mini Sound Level Meter 
 
 > **⚠️ This repository is no longer maintained.**
 > A new native Home Assistant integration is available at **[daweizhangau/ha-uni-t-ble](https://github.com/daweizhangau/ha-uni-t-ble)**.
